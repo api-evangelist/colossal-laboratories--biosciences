@@ -1,18 +1,211 @@
 aid: colossal-laboratories--biosciences
 name: Colossal Laboratories & Biosciences
-description: 'Colossal Laboratories & Biosciences is a company surfaced via the API Evangelist harvest
-  backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.'
+description: 'Colossal Laboratories & Biosciences (Colossal Biosciences) is a Dallas, Texas based
+  genetic-engineering and de-extinction company founded in 2021 by entrepreneur Ben Lamm and Harvard
+  geneticist Dr. George Church. It applies ancient-DNA sequencing, comparative genomics, CRISPR
+  multiplex gene editing, cellular engineering and artificial-womb research to functional de-extinction
+  and endangered-species conservation, with active programs on the woolly mammoth, thylacine, dodo,
+  dire wolf, moa and bluebuck, plus the Colossal Biovault biobanking program and an EEHV vaccine
+  effort for elephants. The company has raised roughly $435M through a $200M Series C in January 2025,
+  spun out Form Bio (computational biology software) and Breaking (plastic degradation), and funds the
+  nonprofit Colossal Foundation. Colossal publishes no product or developer API, no developer portal
+  and no OpenAPI of its own; the machine-readable surface on colossal.com is the WordPress REST API
+  (wp/v2) that serves the newsroom, science and species content, media library and site search as
+  JSON, alongside a WordPress MCP Adapter endpoint that is present in the route index but
+  authentication-gated. No first-party GitHub organization, SDK, package or /llms.txt was found.'
 url: https://raw.githubusercontent.com/api-evangelist/colossal-laboratories--biosciences/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment-pipeline
+image: https://colossal.com/wp-content/uploads/Colossal_BrandingRegistered_Logo_Icon_RGB_Wht-1.png
 specificationVersion: '0.20'
 created: '2026-08-09'
 modified: '2026-08-09'
 tags:
 - Company
-apis: []
+- Biotechnology
+- Genomics
+- Genetic Engineering
+- Synthetic Biology
+- De-extinction
+- Conservation
+- Wildlife
+- Life Sciences
+- CRISPR
+- Research
+- Content
+apis:
+- aid: colossal-laboratories--biosciences:mcp
+  name: Colossal MCP Server (WordPress MCP Adapter)
+  description: >-
+    A Model Context Protocol server endpoint advertised in the colossal.com WordPress REST route index
+    under the "mcp" namespace and served at /wp-json/mcp/mcp-adapter-default-server. The endpoint is live
+    but authentication-gated: an anonymous JSON-RPC tools/list returns HTTP 401 rest_forbidden, as does
+    initialize and the companion wp-abilities/v1 abilities registry, so the published tool set could not
+    be enumerated. Colossal documents this endpoint nowhere; it was found by enumerating the REST route
+    index.
+  humanURL: https://colossal.com/wp-json/mcp
+  baseURL: https://colossal.com/wp-json/mcp/mcp-adapter-default-server
+  tags:
+  - MCP
+  - Agents
+  - Content
+  properties:
+  - type: MCPServer
+    url: mcp/colossal-laboratories--biosciences-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/colossal-laboratories--biosciences-tool-crosswalk.yml
+- aid: colossal-laboratories--biosciences:colossal-laboratories--biosciences-comments-api
+  name: Colossal Laboratories & Biosciences Comments API
+  description: The Comments API from Colossal Laboratories & Biosciences — 2 operation(s) for comments.
+  humanURL: https://colossal.com/news/
+  baseURL: https://colossal.com/wp-json/wp/v2
+  tags:
+  - Comments
+  properties:
+  - type: OpenAPI
+    url: openapi/colossal-laboratories--biosciences-comments-api-openapi.yml
+  - type: DataModel
+    url: data-model/colossal-laboratories--biosciences-data-model.yml
+  - type: ErrorCatalog
+    url: errors/colossal-laboratories--biosciences-problem-types.yml
+  - type: Examples
+    url: examples/colossal-laboratories--biosciences-examples.yml
+- aid: colossal-laboratories--biosciences:colossal-laboratories--biosciences-discovery-api
+  name: Colossal Laboratories & Biosciences Discovery API
+  description: >-
+    The Discovery API from Colossal Laboratories & Biosciences — 5 operation(s) for discovery.
+  humanURL: https://colossal.com/news/
+  baseURL: https://colossal.com/wp-json/wp/v2
+  tags:
+  - Discovery
+  properties:
+  - type: OpenAPI
+    url: openapi/colossal-laboratories--biosciences-discovery-api-openapi.yml
+  - type: DataModel
+    url: data-model/colossal-laboratories--biosciences-data-model.yml
+  - type: ErrorCatalog
+    url: errors/colossal-laboratories--biosciences-problem-types.yml
+  - type: Examples
+    url: examples/colossal-laboratories--biosciences-examples.yml
+- aid: colossal-laboratories--biosciences:colossal-laboratories--biosciences-media-api
+  name: Colossal Laboratories & Biosciences Media API
+  description: The Media API from Colossal Laboratories & Biosciences — 3 operation(s) for media.
+  humanURL: https://colossal.com/news/
+  baseURL: https://colossal.com/wp-json/wp/v2
+  tags:
+  - Media
+  properties:
+  - type: OpenAPI
+    url: openapi/colossal-laboratories--biosciences-media-api-openapi.yml
+  - type: DataModel
+    url: data-model/colossal-laboratories--biosciences-data-model.yml
+  - type: ErrorCatalog
+    url: errors/colossal-laboratories--biosciences-problem-types.yml
+  - type: Examples
+    url: examples/colossal-laboratories--biosciences-examples.yml
+- aid: colossal-laboratories--biosciences:colossal-laboratories--biosciences-pages-api
+  name: Colossal Laboratories & Biosciences Pages API
+  description: The Pages API from Colossal Laboratories & Biosciences — 2 operation(s) for pages.
+  humanURL: https://colossal.com/news/
+  baseURL: https://colossal.com/wp-json/wp/v2
+  tags:
+  - Pages
+  properties:
+  - type: OpenAPI
+    url: openapi/colossal-laboratories--biosciences-pages-api-openapi.yml
+  - type: DataModel
+    url: data-model/colossal-laboratories--biosciences-data-model.yml
+  - type: ErrorCatalog
+    url: errors/colossal-laboratories--biosciences-problem-types.yml
+  - type: Examples
+    url: examples/colossal-laboratories--biosciences-examples.yml
+- aid: colossal-laboratories--biosciences:colossal-laboratories--biosciences-posts-api
+  name: Colossal Laboratories & Biosciences Posts API
+  description: The Posts API from Colossal Laboratories & Biosciences — 2 operation(s) for posts.
+  humanURL: https://colossal.com/news/
+  baseURL: https://colossal.com/wp-json/wp/v2
+  tags:
+  - Posts
+  properties:
+  - type: OpenAPI
+    url: openapi/colossal-laboratories--biosciences-posts-api-openapi.yml
+  - type: DataModel
+    url: data-model/colossal-laboratories--biosciences-data-model.yml
+  - type: ErrorCatalog
+    url: errors/colossal-laboratories--biosciences-problem-types.yml
+  - type: Examples
+    url: examples/colossal-laboratories--biosciences-examples.yml
+- aid: colossal-laboratories--biosciences:colossal-laboratories--biosciences-search-api
+  name: Colossal Laboratories & Biosciences Search API
+  description: The Search API from Colossal Laboratories & Biosciences — 1 operation(s) for search.
+  humanURL: https://colossal.com/news/
+  baseURL: https://colossal.com/wp-json/wp/v2
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/colossal-laboratories--biosciences-search-api-openapi.yml
+  - type: DataModel
+    url: data-model/colossal-laboratories--biosciences-data-model.yml
+  - type: ErrorCatalog
+    url: errors/colossal-laboratories--biosciences-problem-types.yml
+  - type: Examples
+    url: examples/colossal-laboratories--biosciences-examples.yml
+- aid: colossal-laboratories--biosciences:colossal-laboratories--biosciences-settings-api
+  name: Colossal Laboratories & Biosciences Settings API
+  description: The Settings API from Colossal Laboratories & Biosciences — 1 operation(s) for settings.
+  humanURL: https://colossal.com/news/
+  baseURL: https://colossal.com/wp-json/wp/v2
+  tags:
+  - Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/colossal-laboratories--biosciences-settings-api-openapi.yml
+  - type: DataModel
+    url: data-model/colossal-laboratories--biosciences-data-model.yml
+  - type: ErrorCatalog
+    url: errors/colossal-laboratories--biosciences-problem-types.yml
+  - type: Examples
+    url: examples/colossal-laboratories--biosciences-examples.yml
+- aid: colossal-laboratories--biosciences:colossal-laboratories--biosciences-taxonomy-api
+  name: Colossal Laboratories & Biosciences Taxonomy API
+  description: The Taxonomy API from Colossal Laboratories & Biosciences — 6 operation(s) for taxonomy.
+  humanURL: https://colossal.com/news/
+  baseURL: https://colossal.com/wp-json/wp/v2
+  tags:
+  - Taxonomy
+  properties:
+  - type: OpenAPI
+    url: openapi/colossal-laboratories--biosciences-taxonomy-api-openapi.yml
+  - type: DataModel
+    url: data-model/colossal-laboratories--biosciences-data-model.yml
+  - type: ErrorCatalog
+    url: errors/colossal-laboratories--biosciences-problem-types.yml
+  - type: Examples
+    url: examples/colossal-laboratories--biosciences-examples.yml
+- aid: colossal-laboratories--biosciences:colossal-laboratories--biosciences-users-api
+  name: Colossal Laboratories & Biosciences Users API
+  description: The Users API from Colossal Laboratories & Biosciences — 3 operation(s) for users.
+  humanURL: https://colossal.com/news/
+  baseURL: https://colossal.com/wp-json/wp/v2
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/colossal-laboratories--biosciences-users-api-openapi.yml
+  - type: DataModel
+    url: data-model/colossal-laboratories--biosciences-data-model.yml
+  - type: ErrorCatalog
+    url: errors/colossal-laboratories--biosciences-problem-types.yml
+  - type: Examples
+    url: examples/colossal-laboratories--biosciences-examples.yml
+x-enrichment:
+  date: '2026-08-09'
+  status: enriched
+  artifacts_added: 21
+  pass: local-v1
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +213,54 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
+  url: https://colossal.com
+- type: About
+  url: https://colossal.com/company/
+- type: Blog
+  url: https://colossal.com/news/
+- type: BlogRSS
+  url: https://colossal.com/feed/
+- type: News
+  url: https://colossal.com/news/
+- type: Technology
+  url: https://colossal.com/technology/
+- type: Careers
+  url: https://colossal.com/careers/
+- type: Team
+  url: https://colossal.com/advisors/
+- type: Education
+  url: https://colossal.com/education/
+- type: Foundation
+  url: https://colossal.com/foundation/
+- type: Glossary
+  url: https://colossal.com/glossary/
+- type: LinkedIn
+  url: https://www.linkedin.com/company/colossal
+- type: Sitemap
+  url: https://colossal.com/sitemap_index.xml
+- type: TermsOfService
+  url: https://colossal.com/terms-of-use/
+- type: PrivacyPolicy
+  url: https://colossal.com/privacy-policy/
+- type: Authentication
+  url: authentication/colossal-laboratories--biosciences-authentication.yml
+- type: DomainSecurity
+  url: security/colossal-laboratories--biosciences-domain-security.yml
+- type: WellKnown
+  url: well-known/colossal-laboratories--biosciences-well-known.yml
+- type: LLMsTxt
+  url: llms/colossal-laboratories--biosciences-llms.txt
+- type: Conventions
+  url: conventions/colossal-laboratories--biosciences-conventions.yml
+- type: Conformance
+  url: conformance/colossal-laboratories--biosciences-conformance.yml
+- type: Lifecycle
+  url: lifecycle/colossal-laboratories--biosciences-lifecycle.yml
+- type: Packages
+  url: packages/colossal-laboratories--biosciences-packages.yml
+- type: AgenticAccess
+  url: agentic-access/colossal-laboratories--biosciences-agentic-access.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: SecondaryMarket
   url: https://www.hiive.com/securities/colossal-laboratories--biosciences-stock

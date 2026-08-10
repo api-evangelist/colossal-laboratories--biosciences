@@ -1,0 +1,115 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Colossal Content API
+  version: 1.0.0
+extends: openapi/colossal-laboratories--biosciences-content-openapi.yml
+x-generated: '2026-08-09'
+x-method: generated
+x-source: >-
+  API Evangelist enrichment pipeline. Captures our annotations on top of the DERIVED OpenAPI so
+  the derived document stays a faithful projection of https://colossal.com/wp-json/ and our
+  editorial layer stays separable from it.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-profile: https://apis.io/providers/colossal-laboratories--biosciences/
+    x-apievangelist-artifacts:
+      authentication: authentication/colossal-laboratories--biosciences-authentication.yml
+      conventions: conventions/colossal-laboratories--biosciences-conventions.yml
+      errors: errors/colossal-laboratories--biosciences-problem-types.yml
+      data_model: data-model/colossal-laboratories--biosciences-data-model.yml
+      lifecycle: lifecycle/colossal-laboratories--biosciences-lifecycle.yml
+      conformance: conformance/colossal-laboratories--biosciences-conformance.yml
+      examples: examples/colossal-laboratories--biosciences-examples.yml
+      skills: skills/_index.yml
+      agentic_access: agentic-access/colossal-laboratories--biosciences-agentic-access.yml
+      well_known: well-known/colossal-laboratories--biosciences-well-known.yml
+    x-provider-published: false
+    x-derivation-note: >-
+      Colossal publishes no OpenAPI, no developer portal and no API documentation. This document
+      was derived mechanically from the site's live WordPress REST route-discovery document and
+      describes the CMS content API, not a Colossal product API.
+- target: $.info
+  update:
+    x-rate-limit-note: >-
+      No rate-limit headers are advertised. The origin sits behind Cloudflare in front of WP
+      Engine; edge limits may apply without being signalled. robots.txt sets Crawl-delay 10 for
+      crawlers, which is the only pacing signal published anywhere on the property.
+    x-caching-note: >-
+      Collection responses carry cache-control: max-age=600, must-revalidate and
+      x-cacheable: SHORT (WP Engine); Cloudflare reports cf-cache-status: DYNAMIC.
+    x-indexing-note: 'wp-json responses carry x-robots-tag: noindex.'
+- target: $.servers[0]
+  update:
+    x-observed-tls: TLSv1.3
+    x-observed-cdn: Cloudflare
+    x-observed-origin: WP Engine
+- target: $.paths['/wp/v2/posts'].get
+  update:
+    description: >-
+      Colossal news releases, science insights and long-form articles. 238 published at harvest
+      (2026-08-09) — de-extinction program updates for the woolly mammoth, thylacine, dodo, dire
+      wolf, moa and bluebuck, conservation news, and explainers. Filter with the `categories`
+      parameter: 5=news (172), 6=insight (52), 154=dodo, 108=thylacine, 183=george-church.
+    x-record-count-observed: 238
+- target: $.paths['/wp/v2/pages'].get
+  update:
+    description: >-
+      Marketing, species, glossary, FAQ and legal pages. 59 published at harvest — including the
+      species programs (/mammoth/, /thylacine/, /dodo/, /direwolf/ and its four children,
+      /moa/, /bluebuck/), /technology/, /labs/, /conservation/, /education/, /careers/,
+      /terms-of-use/ and /privacy-policy/. Use `parent` to walk the hierarchy.
+    x-record-count-observed: 59
+- target: $.paths['/wp/v2/media'].get
+  update:
+    description: >-
+      Media library — 990 items at harvest, the program photography and illustration that carries
+      the site. Each item exposes source_url, alt_text, mime_type and media_details with the
+      generated size variants.
+    x-record-count-observed: 990
+- target: $.paths['/wp/v2/search'].get
+  update:
+    description: >-
+      Site-wide search across 297 indexed objects. Returns lightweight pointers (id, title, url,
+      type, subtype) that must be resolved against the matching collection endpoint. The only
+      cross-collection query surface on this API.
+    x-record-count-observed: 297
+- target: $.paths['/wp/v2/categories'].get
+  update:
+    x-record-count-observed: 15
+    x-note: >-
+      The category taxonomy does double duty as editorial section and as page-placement flag
+      (home-page, wooly-mammoth-page, science-technology-page). Tags (156 terms) are the real
+      subject vocabulary.
+- target: $.paths['/wp/v2/tags'].get
+  update:
+    x-record-count-observed: 156
+- target: $.paths['/wp/v2/users'].get
+  update:
+    x-record-count-observed: 8
+    x-note: >-
+      Anonymous user enumeration is enabled. The collection returns display name, slug and public
+      author-archive URL for all 8 contributor accounts without authentication. That is default
+      WordPress behaviour, not a Colossal decision, but it is worth Colossal's attention — it is
+      the standard first step of a WordPress credential-stuffing attempt. API Evangelist records
+      the shape and count only and does not republish the identities.
+- target: $.paths['/wp/v2/comments'].get
+  update:
+    x-record-count-observed: 0
+    x-note: Comments are closed site-wide; the collection is permanently empty.
+- target: $.paths['/wp/v2/settings'].get
+  update:
+    x-observed-status: 401 rest_forbidden to anonymous callers
+- target: $.components.securitySchemes.applicationPassword
+  update:
+    x-note: >-
+      Write operations on every path in this document require this scheme. No third party holds
+      an Application Password for colossal.com, so in practice this API is read-only to everyone
+      but Colossal.
+x-missing-surface:
+  note: >-
+    Recorded here rather than as an action, because an Overlay must not invent paths. Five
+    custom post types published on colossal.com — `paper`, `podcast`, `team`, `faq` and `pdf` —
+    appear in the Rank Math sitemap index but are NOT registered with the REST API, so no path
+    exists to annotate. Registering them (show_in_rest) would expose Colossal's scientific
+    papers, podcast catalog, team roster and FAQ corpus as JSON with no new engineering.

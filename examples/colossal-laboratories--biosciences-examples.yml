@@ -1,0 +1,200 @@
+generated: '2026-08-09'
+method: probed
+source: live GET requests against https://colossal.com/wp-json/wp/v2 on 2026-08-09
+api: colossal-laboratories--biosciences:content
+spec: openapi/colossal-laboratories--biosciences-content-openapi.yml
+note: >-
+  Real response payloads captured verbatim from the live colossal.com WordPress REST API.
+  Colossal publishes no examples of its own and the derived OpenAPI carries none, so these were
+  PROBED, not authored. Every value below came back from an anonymous GET; nothing is synthetic
+  and no field was edited except the trimming noted on each entry. All requests are anonymous
+  and read-only. Contributor account rows are deliberately reduced to counts rather than named
+  — the enumeration is public, but this profile does not republish individual staff identities.
+conventions:
+  anonymous_read: true
+  trimming_param: >-
+    _fields — a comma-separated list of top-level fields, used on every capture below to keep
+    them readable
+  expansion_param: _embed — inlines author, wp:featuredmedia and wp:term into _embedded
+  pagination_headers: [X-WP-Total, X-WP-TotalPages]
+examples:
+- operationId: getPosts
+  request: GET /wp/v2/posts?per_page=1&_fields=id,date,slug,link,title,categories,tags,author,featured_media,type
+  status: 200
+  content_type: application/json; charset=UTF-8
+  response_headers:
+    X-WP-Total: '238'
+    X-WP-TotalPages: '238'
+    Link: <https://colossal.com/wp-json/wp/v2/posts?per_page=1&page=2>; rel="next"
+  truncation: per_page=1 and _fields applied on the request; the body below is the complete response
+  response:
+  - id: 2831
+    date: '2026-07-28T20:29:42'
+    slug: bluebuck-the-lost-blue-antelope-of-africa
+    type: post
+    link: https://colossal.com/bluebuck-the-lost-blue-antelope-of-africa/
+    title:
+      rendered: 'Bluebuck: The Lost Blue Antelope of Africa'
+    author: 16
+    featured_media: 2832
+    categories: [6]
+    tags: []
+- operationId: getPosts
+  request: GET /wp/v2/posts?per_page=1
+  status: 200
+  note: >-
+    Untrimmed shape. Recorded as a field inventory rather than a full body — post `content` is
+    full rendered HTML and runs to tens of kilobytes.
+  top_level_fields: [id, date, date_gmt, guid, modified, modified_gmt, slug, status, type, link,
+    title, content, excerpt, author, featured_media, comment_status, ping_status, sticky,
+    template, format, meta, categories, tags, class_list, acf, _links]
+  link_relations: [self, collection, about, author, replies, version-history,
+    predecessor-version, wp:attachment, wp:featuredmedia, wp:term, curies]
+- operationId: getPages
+  request: GET /wp/v2/pages?per_page=1&orderby=date&order=desc&_fields=id,slug,link,title,parent,menu_order,template,type
+  status: 200
+  response_headers:
+    X-WP-Total: '59'
+  response:
+  - id: 2825
+    slug: is-colossals-dire-wolf-really-a-dire-wolf
+    type: page
+    link: https://colossal.com/is-colossals-dire-wolf-really-a-dire-wolf/
+    title:
+      rendered: Is Colossal’s Dire Wolf Really a Dire Wolf?
+    parent: 0
+    menu_order: 0
+    template: ''
+- operationId: getMedia
+  request: GET /wp/v2/media?per_page=1&_fields=id,date,slug,link,title,media_type,mime_type,source_url,alt_text
+  status: 200
+  response_headers:
+    X-WP-Total: '990'
+  response:
+  - id: 2853
+    date: '2026-07-28T20:39:44'
+    slug: bluebuck-the-lost-blue-antelope-of-africa-2
+    link: https://colossal.com/bluebuck-the-lost-blue-antelope-of-africa/bluebuck-the-lost-blue-antelope-of-africa-2/
+    title:
+      rendered: Bluebuck The Lost Blue Antelope of Africa
+    alt_text: Bluebuck The Lost Blue Antelope of Africa
+    media_type: image
+    mime_type: image/jpeg
+    source_url: https://colossal.com/wp-content/uploads/Bluebuck-The-Lost-Blue-Antelope-of-Africa.jpg
+- operationId: getCategories
+  request: GET /wp/v2/categories?per_page=100&_fields=id,name,slug,count
+  status: 200
+  response_headers:
+    X-WP-Total: '15'
+  truncation: complete — all 15 terms returned
+  response:
+  - {id: 5, slug: news, count: 172}
+  - {id: 6, slug: insight, count: 52}
+  - {id: 183, slug: george-church, count: 9}
+  - {id: 154, slug: dodo, count: 8}
+  - {id: 108, slug: thylacine, count: 8}
+  - {id: 22, slug: wooly-mammoth-page, count: 8}
+  - {id: 12, slug: home-page, count: 71}
+  - {id: 1, slug: uncategorized, count: 6}
+  - {id: 8, slug: resource, count: 3}
+  - {id: 23, slug: science-technology-page, count: 3}
+  - {id: 186, slug: conservation-rhino, count: 3}
+  - {id: 187, slug: conservation-pigeon, count: 3}
+  - {id: 189, slug: conservation-elephant, count: 3}
+  - {id: 188, slug: conservation-news, count: 0}
+  - {id: 41, slug: seo, count: 1}
+- operationId: getTags
+  request: GET /wp/v2/tags?per_page=5&orderby=count&order=desc&_fields=id,name,slug,count
+  status: 200
+  response_headers:
+    X-WP-Total: '156'
+  truncation: first 5 of 156
+  response:
+  - {id: 34, name: De-extinction, slug: de-extinction, count: 10}
+  - {id: 40, name: Conservation, slug: conservation, count: 8}
+  - {id: 21, name: Woolly Mammoth, slug: woolly-mammoth, count: 8}
+  - {id: 39, name: Rewilding, slug: rewilding, count: 5}
+  - {id: 13, name: Disruptive conservation, slug: disruptive-conservation, count: 4}
+- operationId: getSearch
+  request: GET /wp/v2/search?search=mammoth&per_page=2
+  status: 200
+  response_headers:
+    X-WP-Total: '297'
+  note: >-
+    X-WP-Total on /search without a query is the full indexed object count (297). Results are
+    lightweight pointers — id, title, url, type, subtype — that must be resolved against the
+    matching collection endpoint.
+  response:
+  - id: 2677
+    title: Inside Colossal Biosciences&#8217; Dallas HQ&#58; The Science Behind the Woolly Mammoth Revival
+    url: https://colossal.com/inside-colossal-biosciences-dallas-hq-the-science-behind-the-woolly-mammoth-revival/
+    type: post
+    subtype: post
+  - id: 2395
+    title: 'A Mammoth Stage: Colossal Biosciences Unites AI and Hollywood to Revive Extinct Species'
+    url: https://colossal.com/a-mammoth-stage-colossal-biosciences-unites-ai-and-hollywood-to-revive-extinct-species/
+    type: post
+    subtype: post
+- operationId: getUsers
+  request: GET /wp/v2/users?per_page=3&_fields=id,name,slug,link,description
+  status: 200
+  response_headers:
+    X-WP-Total: '8'
+  note: >-
+    Body withheld by API Evangelist. The endpoint returns 8 contributor accounts with display
+    name, slug and public author-archive URL. That is a live WordPress user-enumeration surface,
+    and while it is publicly readable this profile records the shape and count rather than
+    republishing individual identities. Only the shared organizational account (id 16, "Colossal
+    Biosciences") authors the sampled posts.
+  response_shape: [id, name, slug, link, description]
+- operationId: getTaxonomies
+  request: GET /wp/v2/taxonomies?_fields=slug,name,types
+  status: 200
+  response: []
+  note: >-
+    Returns an empty array when _fields narrows it — the full response is an object keyed by
+    taxonomy (category, post_tag), not an array. Recorded as observed, including the quirk.
+- operationId: getComments
+  request: GET /wp/v2/comments?per_page=1
+  status: 200
+  response_headers:
+    X-WP-Total: '0'
+  response: []
+  note: Comments are closed site-wide; the collection is empty.
+error_examples:
+- operationId: getPosts
+  request: GET /wp/v2/posts?per_page=999
+  status: 400
+  response:
+    code: rest_invalid_param
+    message: 'Invalid parameter(s): per_page'
+    data:
+      status: 400
+      params:
+        per_page: per_page must be between 1 (inclusive) and 100 (inclusive)
+      details:
+        per_page:
+          code: rest_out_of_bounds
+          message: per_page must be between 1 (inclusive) and 100 (inclusive)
+          data: null
+- operationId: getPostsById
+  request: GET /wp/v2/posts/999999999
+  status: 404
+  response:
+    code: rest_post_invalid_id
+    message: Invalid post ID.
+    data: {status: 404}
+- operationId: getCategoriesById
+  request: GET /wp/v2/categories/999999
+  status: 404
+  response:
+    code: rest_term_invalid
+    message: Term does not exist.
+    data: {status: 404}
+- operationId: getSettings
+  request: GET /wp/v2/settings
+  status: 401
+  response:
+    code: rest_forbidden
+    message: Sorry, you are not allowed to do that.
+    data: {status: 401}

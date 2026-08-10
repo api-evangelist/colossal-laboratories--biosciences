@@ -1,0 +1,65 @@
+generated: '2026-08-09'
+method: derived
+source: mcp/colossal-laboratories--biosciences-mcp.yml + openapi/colossal-laboratories--biosciences-content-openapi.yml
+status: gated
+status_raw: unmappable-gated
+note: >-
+  Colossal serves both an MCP endpoint and (via the WordPress REST route index) a REST content
+  surface, so the crosswalk is emitted — but the MCP tools/list and the backing wp-abilities
+  registry both return HTTP 401 rest_forbidden, so no tool name is publicly observable. The
+  crosswalk therefore records ZERO mapped rows rather than guessing at WordPress MCP Adapter
+  defaults. rest_only[] below is the real, complete public REST surface that currently has no
+  observable agent tool bound to it.
+surfaces:
+  openapi:
+    file: openapi/colossal-laboratories--biosciences-content-openapi.yml
+    base_url: https://colossal.com/wp-json/wp/v2
+    gated: false
+    note: >-
+      Anonymous read on every collection listed below; write operations require Application
+      Password auth. Derived by API Evangelist from https://colossal.com/wp-json/ — not
+      published by Colossal.
+  mcp:
+    url: https://colossal.com/wp-json/mcp/mcp-adapter-default-server
+    gated: true
+    note: 'tools/list and initialize both -> 401 rest_forbidden'
+  graphql:
+    present: false
+    note: no /graphql route in any of the 18 registered WordPress REST namespaces; /graphql on the apex returns 404
+crosswalk: []
+mcp_only: []
+rest_only:
+- capability: News, insight and science posts (238 published)
+  operations: [getPosts, getPostsById]
+- capability: Marketing, species, glossary and FAQ pages (59 published)
+  operations: [getPages, getPagesById]
+- capability: Media library (990 attachments)
+  operations: [getMedia, getMediaById]
+- capability: Core taxonomy — 15 categories (news, insight, dodo, thylacine, george-church, conservation-*) and 156 tags
+  operations: [getCategories, getCategoriesById, getTags, getTagsById]
+- capability: Site search across 297 indexed objects
+  operations: [getSearch]
+- capability: Contributor / author profiles (8)
+  operations: [getUsers, getUsersById, getUsersMe]
+- capability: Comments (0 published — comments are closed site-wide)
+  operations: [getComments, getCommentsById]
+- capability: Discovery and settings
+  operations: [getRoot, getTypes, getTypesByType, getTaxonomies, getTaxonomiesByTaxonomy,
+    getStatuses, getStatusesByStatus, getSettings]
+unreachable_content:
+  note: >-
+    Recorded so a later round does not re-hunt it. Five custom post types are published on
+    colossal.com and appear in the Rank Math sitemap index — `paper` (scientific papers),
+    `podcast`, `team`, `faq` and `pdf` — but none is registered with the REST API
+    (show_in_rest false), so none appears in /wp-json/ and none can be read as JSON by any
+    agent or crawler. This is the single largest machine-readability gap on the site and it is
+    Colossal's to close: registering those post types with the REST API would expose the
+    company's papers, team and FAQ corpus without any new engineering.
+coverage:
+  tools_named: 0
+  tools_bound: 0
+  mcp_only: 0
+  rest_operations_total: 67
+  rest_read_operations: 24
+  rest_operations_with_tool: 0
+  reason: mcp tools/list authentication-gated

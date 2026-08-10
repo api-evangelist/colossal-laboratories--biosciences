@@ -1,0 +1,84 @@
+generated: '2026-08-09'
+method: probed
+source: https://colossal.com/wp-json/ + live probes 2026-08-09
+versioning:
+  scheme: uri-path-namespace
+  current: wp/v2
+  docs: null
+  note: >-
+    Version is carried by the WordPress REST namespace segment. Colossal does not version an API
+    of its own — the namespace version tracks WordPress core.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    No deprecation or sunset policy is published, and no operation in the derived OpenAPI is
+    marked deprecated. No Deprecation pointer wired.
+sla:
+  url: null
+  uptime_target: null
+  note: No SLA, uptime commitment or support tier is published.
+status_page:
+  url: null
+  probed:
+  - {url: 'https://status.colossal.com/', result: 'no vhost — wildcard DNS to the WP Engine edge, TLS handshake failure'}
+  - {url: 'https://colossal.com/status/', result: 404}
+  note: >-
+    No status page exists. No StatusPage pointer wired.
+changelog:
+  url: null
+  probed:
+  - {url: 'https://colossal.com/changelog/', result: 404}
+  - {url: 'https://colossal.com/news/', result: '200 — corporate newsroom / science blog (238 posts), not an API changelog'}
+  note: >-
+    Colossal publishes no changelog or release notes for any API. The newsroom is wired as Blog
+    (+ BlogRSS at /feed/), not ChangeLog. No ChangeLog pointer wired.
+support:
+  contact_page: null
+  developer_support: null
+  probed:
+  - {url: 'https://colossal.com/contact/', result: 404}
+  note: >-
+    There is no standalone contact page and no developer support channel, forum, community,
+    Slack/Discord or issue tracker for any API. Contact is a Gravity Forms newsletter/enquiry
+    form embedded in page templates. No Support pointer wired.
+developer_surface_probes:
+  note: >-
+    Probed 2026-08-09 for any developer-facing surface. Colossal publishes none: no developer
+    portal, no documentation site, no API reference, no quickstart, no pricing and no API
+    sign-up. /developers/ and /api/ both 404. api.colossal.com, docs.colossal.com and
+    developer.colossal.com resolve only through a wildcard A record to the WP Engine edge and
+    have no vhost (HTTP 409, TLS handshake failure). No pointer was wired for any of these —
+    the pages do not exist.
+  github:
+    wired: false
+    finding: >-
+      No first-party GitHub organization. github.com/colossal is a 200 but belongs to a
+      different Colossal (website becolossal.com, members @fat and @dhg, zero public
+      repositories); github.com/colossalbio and github.com/colossal-biosciences are both 404.
+      No GitHubOrganization pointer wired.
+  postman:
+    wired: false
+    finding: >-
+      Postman public search for "colossal" returns zero teams, workspaces, collections or APIs.
+      No Postman pointer wired.
+  packages:
+    wired: false
+    finding: >-
+      npm's closest hit, @colossal-sh/storefront-sdk, wraps the Colossal Storefront GraphQL API
+      at docs.colossal.sh — a different company. PyPI `colossal` belongs to an unrelated author.
+      See packages/colossal-laboratories--biosciences-packages.yml.
+hosting:
+  cdn: Cloudflare
+  origin: WP Engine
+  platform: >-
+    WordPress (WP Engine, Rank Math SEO, EmbedPress, WP Popups, Gravity Forms, Duplicate Post
+    and the WordPress MCP Adapter / Abilities API present in the REST route index)
+  tls: TLSv1.3
+  cert_expires: 'Sep 30 03:16:18 2026 GMT'
+content_freshness:
+  posts_published: 238
+  latest_post_observed: '2026-07-28T20:29:42 — "Bluebuck: The Lost Blue Antelope of Africa"'
+  sitemap_lastmod: '2026-08-06T20:10:06+00:00'
+deprecated_operations: []

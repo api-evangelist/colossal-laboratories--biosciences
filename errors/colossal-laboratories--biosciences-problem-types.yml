@@ -1,0 +1,82 @@
+generated: '2026-08-09'
+method: derived
+source: >-
+  Live responses observed on colossal.com/wp-json 2026-08-09, plus the WordPress REST error
+  contract reflected in openapi/colossal-laboratories--biosciences-content-openapi.yml
+format: wordpress-rest
+rfc9457: false
+envelope:
+  fields:
+  - {name: code, type: string, meaning: machine-readable error slug}
+  - {name: message, type: string, meaning: human-readable message}
+  - {name: data.status, type: integer, meaning: HTTP status code, mirrored in the response status}
+  - {name: data.params, type: object, meaning: 'on rest_invalid_param only — param name -> message'}
+  - {name: data.details, type: object, meaning: 'on rest_invalid_param only — param name -> {code, message, data}'}
+  content_type: application/json
+  note: >-
+    Not application/problem+json — the WordPress REST API predates RFC 9457 and uses its own
+    envelope. Recorded as-is; nothing normalised or invented.
+problems:
+- status: 401
+  code: rest_forbidden
+  title: Sorry, you are not allowed to do that.
+  meaning: The request requires authentication (or higher capabilities) than the caller has.
+  observed_on:
+  - POST /wp-json/mcp/mcp-adapter-default-server (tools/list)
+  - POST /wp-json/mcp/mcp-adapter-default-server (initialize)
+  - GET /wp-json/wp-abilities/v1/abilities
+  - GET /wp-json/wp/v2/settings
+  observed_body: '{"code":"rest_forbidden","message":"Sorry, you are not allowed to do that.","data":{"status":401}}'
+  remediation: >-
+    Authenticate with a WordPress Application Password (HTTP Basic) issued from
+    https://colossal.com/wp-admin/authorize-application.php, or a logged-in cookie plus
+    X-WP-Nonce.
+- status: 404
+  code: rest_no_route
+  title: No route was found matching the URL and request method.
+  meaning: The requested path is not a registered REST route in any of the 18 namespaces.
+  observed_on:
+  - GET /wp-json/wp/v2/nope
+  observed_body: '{"code":"rest_no_route","message":"No route was found matching the URL and request method.","data":{"status":404}}'
+  remediation: Enumerate valid routes from https://colossal.com/wp-json/ before calling.
+- status: 404
+  code: rest_post_invalid_id
+  title: Invalid post ID.
+  meaning: A single-resource route was called with an id that does not exist or is not visible.
+  observed_on:
+  - GET /wp-json/wp/v2/posts/999999999
+  observed_body: '{"code":"rest_post_invalid_id","message":"Invalid post ID.","data":{"status":404}}'
+  source_operation: openapi/colossal-laboratories--biosciences-content-openapi.yml#getPostsById
+- status: 404
+  code: rest_term_invalid
+  title: Term does not exist.
+  meaning: A taxonomy single-resource route (categories, tags) was called with an unknown term id.
+  observed_on:
+  - GET /wp-json/wp/v2/categories/999999
+  observed_body: '{"code":"rest_term_invalid","message":"Term does not exist.","data":{"status":404}}'
+  source_operation: openapi/colossal-laboratories--biosciences-content-openapi.yml#getCategoriesById
+- status: 400
+  code: rest_invalid_param
+  title: 'Invalid parameter(s): <name>'
+  meaning: >-
+    One or more query/body parameters failed the schema declared in the route args
+    (enum, minimum/maximum, or type). data.params names the offending parameters and
+    data.details carries a nested code such as rest_out_of_bounds.
+  observed_on:
+  - GET /wp-json/wp/v2/posts?per_page=999
+  observed_body: '{"code":"rest_invalid_param","message":"Invalid parameter(s): per_page","data":{"status":400,"params":{"per_page":"per_page must be between 1 (inclusive) and 100 (inclusive)"},"details":{"per_page":{"code":"rest_out_of_bounds","message":"per_page must be between 1 (inclusive) and 100 (inclusive)","data":null}}}}'
+  source_operation: openapi/colossal-laboratories--biosciences-content-openapi.yml#getPosts
+  remediation: >-
+    per_page is capped at 100 and page is minimum 1; order, orderby, status and context are
+    enum-constrained. The constraints are carried on each operation in the derived OpenAPI.
+- status: 400
+  code: rest_out_of_bounds
+  title: <param> must be between <min> (inclusive) and <max> (inclusive)
+  meaning: The nested detail code returned inside rest_invalid_param for numeric range failures.
+  observed_on:
+  - GET /wp-json/wp/v2/posts?per_page=999 (data.details.per_page.code)
+note: >-
+  Colossal publishes no error reference — it publishes no developer documentation at all. Every
+  code above was captured verbatim from a live response on colossal.com on 2026-08-09, or is a
+  route-level schema constraint carried in the derived OpenAPI. Nothing was copied from generic
+  WordPress documentation without an observation behind it.

@@ -1,0 +1,61 @@
+generated: '2026-08-09'
+method: searched
+source: >-
+  Registry and repository searches performed 2026-08-09 — npm registry search API, PyPI JSON
+  API, GitHub org lookups, and the colossal.com site itself
+note: >-
+  Colossal ships no API client library, SDK or CLI — it publishes no product API to wrap, no
+  developer portal and no documentation. It also has no first-party GitHub organization:
+  github.com/colossal returns 200 but belongs to a different Colossal (website becolossal.com,
+  members @fat and @dhg, zero public repositories), and github.com/colossalbio and
+  github.com/colossal-biosciences are both 404. No SDKs pointer is wired in apis.yml, because
+  there is no SDK.
+sdk_count: 0
+api_clients: 0
+packages: []
+registries_probed:
+- registry: npm
+  result: >-
+    No first-party package. The closest name match, @colossal-sh/storefront-sdk (1.0.3, ~476
+    weekly downloads), wraps "the Colossal Storefront GraphQL API" documented at
+    docs.colossal.sh — an unrelated e-commerce company that happens to share the word Colossal.
+    Not attributable to Colossal Biosciences.
+- registry: PyPI
+  result: >-
+    No first-party package. The `colossal` project on PyPI belongs to an unrelated author
+    (d1618033). `colossalai` belongs to HPC-AI Tech, a distributed-training framework, also
+    unrelated.
+- registry: Maven Central
+  result: no first-party package
+- registry: NuGet
+  result: no first-party package
+- registry: pkg.go.dev
+  result: no first-party package
+- registry: RubyGems
+  result: no first-party package
+- registry: Packagist
+  result: no first-party package
+- registry: crates.io
+  result: no first-party package
+- registry: GitHub
+  result: >-
+    No Colossal Biosciences organization exists. The company's scientific output is published as
+    peer-reviewed papers and preprints (and a `paper` custom post type on colossal.com that is
+    not even REST-readable), not as code.
+name_collisions_recorded:
+  note: >-
+    Recorded so a later round does not re-litigate them. "Colossal" is a heavily contested name
+    in package registries. None of the following is Colossal Laboratories & Biosciences.
+  collisions:
+  - name: '@colossal-sh/storefront-sdk'
+    registry: npm
+    owner: colossal.sh (e-commerce storefront platform)
+  - name: colossalai
+    registry: PyPI / GitHub (hpcaitech/ColossalAI)
+    owner: HPC-AI Tech — large-model training framework
+  - name: colossal
+    registry: PyPI
+    owner: unrelated individual author
+  - name: github.com/colossal
+    registry: GitHub
+    owner: becolossal.com — a different company, no public repositories

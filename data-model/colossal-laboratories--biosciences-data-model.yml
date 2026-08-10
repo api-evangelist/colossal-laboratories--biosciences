@@ -1,0 +1,172 @@
+generated: '2026-08-09'
+method: derived
+source: >-
+  openapi/colossal-laboratories--biosciences-content-openapi.yml plus live GET payloads observed
+  on /wp-json/wp/v2/{posts,pages,media,categories,tags,users,search,comments} 2026-08-09
+api: colossal-laboratories--biosciences:content
+note: >-
+  Entity graph of the colossal.com WordPress content API. Relationships are derived from the
+  id-reference fields and _links relations present on real payloads — nothing inferred beyond
+  what the API returns. Counts are the X-WP-Total observed at harvest time.
+entities:
+- name: post
+  collection: /wp/v2/posts
+  description: >-
+    Colossal news release, science insight or long-form article. 238 published — de-extinction
+    program updates (mammoth, thylacine, dodo, dire wolf, moa, bluebuck), conservation news,
+    press pickups and explainers.
+  id: {field: id, type: integer}
+  count_observed: 238
+  key_fields: [id, date, date_gmt, guid, modified, modified_gmt, slug, status, type, link, title,
+    content, excerpt, author, featured_media, comment_status, ping_status, sticky, template,
+    format, meta, categories, tags, class_list, acf]
+  operations: [getPosts, getPostsById, createPosts, createPostsById, replacePostsById,
+    updatePostsById, deletePostsById]
+- name: page
+  collection: /wp/v2/pages
+  description: >-
+    Marketing, species, glossary, FAQ or legal page. 59 published — /mammoth/, /thylacine/,
+    /dodo/, /direwolf/ (with science, biology, culture and conservation children), /moa/,
+    /bluebuck/, /technology/, /labs/, /conservation/, /education/, /careers/, /glossary/,
+    /terms-of-use/, /privacy-policy/.
+  id: {field: id, type: integer}
+  count_observed: 59
+  key_fields: [id, date, slug, status, type, link, title, content, excerpt, author,
+    featured_media, parent, menu_order, template, meta, acf]
+  operations: [getPages, getPagesById, createPages, createPagesById, replacePagesById,
+    updatePagesById, deletePagesById]
+- name: attachment
+  collection: /wp/v2/media
+  description: >-
+    Media library item — the program photography, illustrations and video stills that carry the
+    site. 990 items. The largest single collection on this API.
+  id: {field: id, type: integer}
+  count_observed: 990
+  key_fields: [id, date, slug, link, title, author, caption, alt_text, media_type, mime_type,
+    media_details, source_url, post]
+  operations: [getMedia, getMediaById, createMedia, createMediaById, createMediaByIdEdit,
+    replaceMediaById, updateMediaById, deleteMediaById]
+- name: category
+  collection: /wp/v2/categories
+  description: >-
+    WordPress core `category` taxonomy term. 15 terms, doing double duty as editorial section
+    (news 172, insight 52) and as page-placement flags (home-page 71, wooly-mammoth-page 8,
+    science-technology-page 3) plus species and program buckets (dodo, thylacine, george-church,
+    conservation-rhino / -pigeon / -elephant / -news).
+  id: {field: id, type: integer}
+  count_observed: 15
+  key_fields: [id, count, description, link, name, slug, taxonomy, parent, meta, acf]
+  operations: [getCategories, getCategoriesById, createCategories, createCategoriesById,
+    replaceCategoriesById, updateCategoriesById, deleteCategoriesById]
+- name: post_tag
+  collection: /wp/v2/tags
+  description: >-
+    WordPress core `post_tag` taxonomy term. 156 terms — the real subject vocabulary of the
+    site (de-extinction 10, conservation 8, woolly-mammoth 8, rewilding 5,
+    disruptive-conservation 4).
+  id: {field: id, type: integer}
+  count_observed: 156
+  key_fields: [id, count, description, link, name, slug, taxonomy, meta, acf]
+  operations: [getTags, getTagsById, createTags, createTagsById, replaceTagsById, updateTagsById,
+    deleteTagsById]
+- name: user
+  collection: /wp/v2/users
+  description: >-
+    Contributor account with a public author archive. 8 accounts. Mostly a shared organizational
+    byline ("Colossal Biosciences") plus individual staff editors. Identities are not
+    republished in this repo — see examples/.
+  id: {field: id, type: integer}
+  count_observed: 8
+  key_fields: [id, name, url, description, link, slug, avatar_urls, meta]
+  operations: [getUsers, getUsersById, getUsersMe, createUsers, createUsersById, createUsersMe,
+    replaceUsersById, replaceUsersMe, updateUsersById, updateUsersMe, deleteUsersById,
+    deleteUsersMe]
+- name: comment
+  collection: /wp/v2/comments
+  description: Comment. 0 published — comments are closed site-wide.
+  id: {field: id, type: integer}
+  count_observed: 0
+  key_fields: [id, post, parent, author, author_name, date, content, link, status, type]
+  operations: [getComments, getCommentsById, createComments, createCommentsById,
+    replaceCommentsById, updateCommentsById, deleteCommentsById]
+- name: search_result
+  collection: /wp/v2/search
+  description: >-
+    Lightweight cross-type search pointer. 297 objects indexed. Not a stored entity — a
+    projection that must be resolved into posts or pages by branching on `subtype`.
+  id: {field: id, type: integer}
+  count_observed: 297
+  key_fields: [id, title, url, type, subtype]
+  operations: [getSearch]
+relationships:
+- from: post
+  to: user
+  type: belongs_to
+  via: author
+  evidence: 'post.author = 16; _links.author -> /wp/v2/users/16'
+- from: post
+  to: attachment
+  type: has_one
+  via: featured_media
+  evidence: 'post.featured_media = 2832; _links["wp:featuredmedia"] -> /wp/v2/media/2832'
+- from: post
+  to: category
+  type: has_many
+  via: categories
+  evidence: 'post.categories = [6]; _links["wp:term"] taxonomy=category'
+- from: post
+  to: post_tag
+  type: has_many
+  via: tags
+  evidence: '_links["wp:term"] taxonomy=post_tag'
+- from: post
+  to: attachment
+  type: has_many
+  via: _links["wp:attachment"]
+  evidence: '_links["wp:attachment"] -> /wp/v2/media?parent={id}'
+- from: post
+  to: comment
+  type: has_many
+  via: _links.replies
+  evidence: '_links.replies -> /wp/v2/comments?post={id} (always empty — comments closed)'
+- from: post
+  to: post
+  type: has_many
+  via: _links["version-history"] / _links["predecessor-version"]
+  evidence: revision routes exist but require authentication
+- from: page
+  to: page
+  type: belongs_to
+  via: parent
+  evidence: 'page.parent = 0 on top-level pages; /direwolf/{science,biology,culture,conservation} are children'
+- from: attachment
+  to: post
+  type: belongs_to
+  via: post
+  evidence: 'attachment.link nests under the owning post permalink'
+- from: category
+  to: category
+  type: belongs_to
+  via: parent
+  evidence: category schema exposes a parent field (hierarchical taxonomy)
+- from: search_result
+  to: post
+  type: belongs_to
+  via: 'id + subtype (=post|page)'
+  evidence: '_links.self -> /wp/v2/posts/{id}, _links.about -> /wp/v2/types/post'
+id_conventions:
+  scheme: integer auto-increment, shared across posts, pages and attachments (one wp_posts table)
+  note: >-
+    There are no prefixed or namespaced identifiers. A numeric id is only meaningful together
+    with its collection, and `search` results carry `subtype` for exactly that reason.
+  slugs: >-
+    Every post, page and term also carries a URL slug, which is the stable human handle and the
+    safer join key across the sitemap, the RSS feed and the REST API.
+not_modeled:
+  note: >-
+    Five custom post types are published on colossal.com and listed in the Rank Math sitemap
+    index — `paper` (scientific papers), `podcast`, `team`, `faq` and `pdf` — but none is
+    registered with the REST API, so none has an entity, a schema or an endpoint here. They are
+    reachable only as rendered HTML. This is the largest missing piece of Colossal's own data
+    model from a machine's point of view.
+render: null

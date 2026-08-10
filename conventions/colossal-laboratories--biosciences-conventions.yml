@@ -1,0 +1,134 @@
+generated: '2026-08-09'
+method: derived
+source: >-
+  openapi/colossal-laboratories--biosciences-content-openapi.yml (derived from
+  https://colossal.com/wp-json/) plus live response headers observed on
+  GET /wp-json/wp/v2/posts, 2026-08-09
+api: colossal-laboratories--biosciences:content
+authentication:
+  anonymous_read: true
+  scheme: WordPress Application Passwords over HTTP Basic
+  authorization_endpoint: https://colossal.com/wp-admin/authorize-application.php
+  browser_scheme: logged-in cookie + X-WP-Nonce header
+  artifact: authentication/colossal-laboratories--biosciences-authentication.yml
+idempotency:
+  supported: false
+  note: >-
+    No idempotency key header or parameter is exposed on any of the 308 routes in the discovery
+    document, and none is documented. No Idempotency pointer is wired in apis.yml — Colossal has
+    no idempotency contract to advertise, and asserting one would be fabrication.
+pagination:
+  style: page-number
+  request_params:
+  - {name: page, type: integer, default: 1, minimum: 1}
+  - {name: per_page, type: integer, default: 10, minimum: 1, maximum: 100}
+  - {name: offset, type: integer, note: available on collection routes}
+  response_headers:
+  - {name: X-WP-Total, meaning: total items in the collection}
+  - {name: X-WP-TotalPages, meaning: total pages at the current per_page}
+  link_header: 'RFC 8288 Link header with rel="next" / rel="prev"'
+  observed: 'GET /wp/v2/posts?per_page=2 -> X-WP-Total: 238, X-WP-TotalPages: 119, Link: <...page=2>; rel="next"'
+  enforced: 'per_page=999 -> HTTP 400 rest_invalid_param, "per_page must be between 1 (inclusive) and 100 (inclusive)"'
+field_selection:
+  sparse_fields:
+    param: _fields
+    note: comma-separated list of top-level fields to return
+    observed: 'GET /wp/v2/posts?_fields=id,date,slug,link,title,categories,tags,author,featured_media,type returned exactly those keys'
+  expansion:
+    param: _embed
+    note: >-
+      Inlines linked resources (author, wp:featuredmedia, wp:term, replies) into _embedded,
+      driven by the _links relations each resource carries. Relations observed on a post:
+      self, collection, about, author, replies, version-history, predecessor-version,
+      wp:attachment, wp:featuredmedia, wp:term, curies.
+  context:
+    param: context
+    values: [view, embed, edit]
+    default: view
+    note: edit context requires authentication
+ordering_and_filtering:
+  params: [search, order, orderby, slug, status, after, before, modified_after, modified_before,
+    include, exclude, categories, categories_exclude, tags, tags_exclude, author, author_exclude,
+    parent, menu_order, sticky, offset]
+  custom_taxonomy_filters: []
+  note: >-
+    Taken verbatim from the route args in the discovery document. Colossal registers no custom
+    taxonomies with the REST API — only the WordPress core `category` and `post_tag`.
+metadata:
+  field: meta
+  note: >-
+    Registered post meta. The site also returns an `acf` object on every post (Advanced Custom
+    Fields) and a `class_list` array. `meta` was empty on the sampled posts.
+request_tracing:
+  request_id_header: null
+  note: >-
+    No request-id or correlation header is emitted. Cloudflare returns cf-ray (observed:
+    a28a772829fac8c6-EWR), which is an edge trace identifier, not an application request id.
+versioning:
+  scheme: uri-path-namespace
+  current: wp/v2
+  namespaces_present:
+  - wp/v2
+  - wp-site-health/v1
+  - wp-block-editor/v1
+  - wp-abilities/v1
+  - mcp
+  - rankmath/v1
+  - rankmath/v1/ai-visibility
+  - rankmath-marketplace/v1
+  - embedpress/v1
+  - duplicate-post/v1
+  - wpe/cache-plugin/v1
+  - wpe_sign_on_plugin/v1
+  artifact: lifecycle/colossal-laboratories--biosciences-lifecycle.yml
+error_envelope:
+  format: wordpress-rest
+  rfc9457: false
+  shape: '{"code": "<string>", "message": "<human string>", "data": {"status": <int>}}'
+  observed: '{"code":"rest_no_route","message":"No route was found matching the URL and request method.","data":{"status":404}}'
+  extended_shape: >-
+    On rest_invalid_param the envelope carries data.params (param -> message) and data.details
+    (param -> {code, message, data}), e.g. details.per_page.code = rest_out_of_bounds.
+  artifact: errors/colossal-laboratories--biosciences-problem-types.yml
+rate_limiting:
+  documented: false
+  headers_observed: []
+  note: >-
+    No X-RateLimit-* or Retry-After headers observed on any anonymous GET. The site sits behind
+    Cloudflare in front of WP Engine, so edge rate limiting may exist but is not advertised. The
+    only stated pacing signal anywhere on the property is robots.txt "Crawl-delay: 10", which
+    binds crawlers, not API clients.
+caching:
+  headers_observed:
+  - 'cache-control: max-age=600, must-revalidate'
+  - 'x-cacheable: SHORT'
+  - 'x-cache: MISS, x-cache-group: normal (WP Engine)'
+  - 'cf-cache-status: DYNAMIC'
+  - 'vary: Accept-Encoding,Cookie'
+  note: 10-minute TTL declared on wp-json collection responses; Cloudflare treats them as DYNAMIC.
+robots:
+  api_indexing: 'x-robots-tag: noindex on wp-json responses'
+  crawl_delay: 10
+  ai_crawlers: >-
+    Not named at all in robots.txt — neither allowed nor disallowed. GPTBot, ClaudeBot,
+    PerplexityBot, Applebot-Extended and Google-Extended fall under the wildcard rule, which
+    disallows only /wp-admin/.
+  edge_behaviour_differs_by_user_agent:
+    observed_2026-08-09: >-
+      Cloudflare answers the rendered HTML pages differently depending on the User-Agent. A
+      request for https://colossal.com/company/ with a default curl UA returns 200; the same
+      request with a browser-shaped "Mozilla/5.0" UA returns 403. Ten site pages were checked
+      and all ten behaved this way. The wp-json JSON surface is not affected — it returned 200
+      under both. Recorded as observed edge behaviour, not attributed to intent; it means a
+      naive UA-spoofing crawler will see a wall the honest one does not.
+cors:
+  access_control_allow_headers: [Authorization, X-WP-Nonce, Content-Disposition, Content-MD5, Content-Type]
+  access_control_expose_headers: [X-WP-Total, X-WP-TotalPages, Link]
+security_headers:
+  observed:
+  - 'x-content-type-options: nosniff'
+  missing:
+  - Strict-Transport-Security
+  - Content-Security-Policy
+  - X-Frame-Options
+  artifact: security/colossal-laboratories--biosciences-domain-security.yml

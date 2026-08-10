@@ -1,0 +1,80 @@
+generated: '2026-08-09'
+method: probed
+source: >-
+  openapi/colossal-laboratories--biosciences-content-openapi.yml (derived from
+  https://colossal.com/wp-json/) plus live anonymous probes of the wp/v2, mcp and
+  wp-abilities/v1 namespaces, 2026-08-09
+docs: null
+docs_note: >-
+  Colossal publishes no authentication documentation, because it publishes no developer
+  documentation at all. Everything below was observed, not read.
+summary:
+  types:
+  - http
+  anonymous_read: true
+  oauth2: false
+  openid_connect: false
+  api_keys: false
+  mutual_tls: false
+schemes:
+- name: applicationPassword
+  type: http
+  scheme: basic
+  description: >-
+    WordPress Application Passwords, advertised by the site at https://colossal.com/wp-json/
+    under authentication.application-passwords; authorization endpoint
+    https://colossal.com/wp-admin/authorize-application.php. Read operations on wp/v2 are
+    anonymous.
+  applies_to: every create / replace / update / delete operation in the derived OpenAPI
+  issuance: >-
+    Self-service only for accounts that already hold a colossal.com WordPress login. No third
+    party can obtain one, so in practice this API is read-only to everyone outside Colossal.
+  sources:
+  - openapi/colossal-laboratories--biosciences-content-openapi.yml
+  - https://colossal.com/wp-json/ (authentication.application-passwords)
+- name: cookieNonce
+  type: cookie
+  description: >-
+    The browser path — a logged-in WordPress cookie plus an X-WP-Nonce request header. Not
+    usable by a server-to-server client. Evidenced by the CORS preflight allowlist, which
+    includes X-WP-Nonce.
+  observed: 'access-control-allow-headers: Authorization, X-WP-Nonce, Content-Disposition, Content-MD5, Content-Type'
+anonymous_access:
+  readable_without_credentials:
+  - /wp/v2/posts (200, X-WP-Total 238)
+  - /wp/v2/pages (200, X-WP-Total 59)
+  - /wp/v2/media (200, X-WP-Total 990)
+  - /wp/v2/categories (200, 15)
+  - /wp/v2/tags (200, 156)
+  - /wp/v2/users (200, 8)
+  - /wp/v2/comments (200, 0)
+  - /wp/v2/search (200, 297)
+  - /wp/v2/taxonomies (200)
+  - /wp/v2/statuses (200)
+  gated_to_anonymous:
+  - {path: /wp/v2/settings, status: 401, code: rest_forbidden}
+  - {path: /wp-json/mcp/mcp-adapter-default-server, status: 401, code: rest_forbidden, method: 'JSON-RPC tools/list and initialize'}
+  - {path: /wp-json/wp-abilities/v1/abilities, status: 401, code: rest_forbidden}
+discovery:
+  oauth_authorization_server: {path: /.well-known/oauth-authorization-server, status: 404}
+  oauth_protected_resource: {path: /.well-known/oauth-protected-resource, status: 404}
+  openid_configuration: {path: /.well-known/openid-configuration, status: 404}
+  note: >-
+    No OAuth or OIDC discovery document is served, so the MCP endpoint's 401 carries no
+    machine-readable challenge an agent could follow. No OAuthScopes artifact is emitted —
+    there is no oauth2 securityScheme and no documented scope vocabulary to derive one from.
+observations:
+- finding: anonymous user enumeration
+  detail: >-
+    GET /wp/v2/users returns all 8 contributor accounts — display name, slug and public
+    author-archive URL — with no credentials. This is default WordPress behaviour rather than a
+    Colossal decision, but it is the standard first step of a WordPress credential-stuffing
+    attempt and is worth Colossal's attention. API Evangelist records the shape and count only
+    and does not republish the identities.
+  status: 200
+- finding: no vulnerability-disclosure channel
+  detail: >-
+    /.well-known/security.txt and /security.txt both 404, and no bug-bounty or disclosure page
+    exists, so there is no published route to report the item above. See
+    security/colossal-laboratories--biosciences-domain-security.yml.
+  status: 404

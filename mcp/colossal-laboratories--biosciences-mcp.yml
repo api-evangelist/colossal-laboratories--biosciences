@@ -1,0 +1,54 @@
+generated: '2026-08-09'
+method: probed
+status: published
+source: https://colossal.com/wp-json/mcp
+server:
+  name: mcp-adapter-default-server
+  transport: http
+  url: https://colossal.com/wp-json/mcp/mcp-adapter-default-server
+  namespace_index: https://colossal.com/wp-json/mcp
+  methods: [POST, GET, DELETE]
+  implementation: >-
+    WordPress MCP Adapter — the "mcp" namespace is registered in the colossal.com WordPress REST
+    route index alongside wp-abilities/v1, which is the adapter's backing ability registry.
+  first_party: true
+  note: >-
+    This is the site CMS's MCP endpoint, not a Colossal product MCP server. Colossal publishes no
+    developer platform and advertises this endpoint nowhere — no developer portal, no docs, no
+    llms.txt. It was found by enumerating https://colossal.com/wp-json/.
+authentication:
+  gated: true
+  observed: 'anonymous JSON-RPC tools/list -> HTTP 401 {"code":"rest_forbidden","message":"Sorry, you are not allowed to do that.","data":{"status":401}}'
+  also_observed: 'anonymous JSON-RPC initialize (protocolVersion 2025-06-18) -> HTTP 401 rest_forbidden'
+  scheme: WordPress Application Passwords (HTTP Basic) / logged-in cookie + X-WP-Nonce
+  authorization_endpoint: https://colossal.com/wp-admin/authorize-application.php
+  oauth_discovery:
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+companion_surface:
+  abilities_api: https://colossal.com/wp-json/wp-abilities/v1/abilities
+  abilities_status: 401
+  abilities_routes:
+  - /wp-abilities/v1/abilities
+  - /wp-abilities/v1/abilities/{name}
+  - /wp-abilities/v1/abilities/{name}/run
+  - /wp-abilities/v1/categories
+  - /wp-abilities/v1/categories/{slug}
+  note: >-
+    The WordPress Abilities API registry is what the MCP Adapter projects as tools. It is gated
+    the same way, so the published tool set could not be enumerated anonymously.
+tools: []
+tools_note: >-
+  NOT AN EMPTY TOOL SET — the tool set is unknown. tools/list is authentication-gated, and
+  Colossal publishes no llms.txt, no docs and no agent manifest, so there is no public source for
+  tool names or input schemas. Nothing is derived or guessed here. Authenticated introspection
+  would be required to enumerate them. The crosswalk in
+  mcp/colossal-laboratories--biosciences-tool-crosswalk.yml therefore maps the ABILITY
+  SURFACE the adapter can expose against the derived OpenAPI, at low confidence, and says so.
+x-evidence:
+  fetched: '2026-08-09'
+  url: https://colossal.com/wp-json/mcp/mcp-adapter-default-server
+  http_status: 401
+  content_type: application/json
+  discovery_url: https://colossal.com/wp-json/
+  namespace_index_status: 200

@@ -1,0 +1,16 @@
+generated: '2026-08-09'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: colossal.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 30 03:16:18 2026 GMT
+  hsts: false
+domains:
+- domain: colossal.com
+  dnssec: true
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: none
