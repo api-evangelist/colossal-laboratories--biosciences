@@ -19,7 +19,7 @@ x-source: harvest:secondary-market
 x-tier: profiled
 x-tier-reason: enrichment-pipeline
 image: https://colossal.com/wp-content/uploads/Colossal_BrandingRegistered_Logo_Icon_RGB_Wht-1.png
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 created: '2026-08-09'
 modified: '2026-08-09'
 tags:
