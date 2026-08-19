@@ -1,7 +1,15 @@
 {
   "provider": "colossal-laboratories--biosciences",
   "sources": [
-    "colossal-laboratories--biosciences-content-openapi.yml"
+    "colossal-laboratories--biosciences-comments-api-openapi.yml",
+    "colossal-laboratories--biosciences-discovery-api-openapi.yml",
+    "colossal-laboratories--biosciences-media-api-openapi.yml",
+    "colossal-laboratories--biosciences-pages-api-openapi.yml",
+    "colossal-laboratories--biosciences-posts-api-openapi.yml",
+    "colossal-laboratories--biosciences-search-api-openapi.yml",
+    "colossal-laboratories--biosciences-settings-api-openapi.yml",
+    "colossal-laboratories--biosciences-taxonomy-api-openapi.yml",
+    "colossal-laboratories--biosciences-users-api-openapi.yml"
   ],
   "outputs": [
     "colossal-laboratories--biosciences-comments-api-openapi.yml",
@@ -14,13 +22,20 @@
     "colossal-laboratories--biosciences-taxonomy-api-openapi.yml",
     "colossal-laboratories--biosciences-users-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/colossal-laboratories--biosciences-content-openapi.yml"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
-    "apis.yml register: written (+9 apis, 10 total)"
+    "colossal-laboratories--biosciences-comments-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "colossal-laboratories--biosciences-discovery-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "colossal-laboratories--biosciences-media-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "colossal-laboratories--biosciences-pages-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "colossal-laboratories--biosciences-posts-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "colossal-laboratories--biosciences-search-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "colossal-laboratories--biosciences-settings-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "colossal-laboratories--biosciences-taxonomy-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "colossal-laboratories--biosciences-users-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
   ],
   "skipped": []
 }
