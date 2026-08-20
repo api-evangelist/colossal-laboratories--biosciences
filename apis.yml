@@ -28,6 +28,19 @@ tags:
 - Genomics
 - Genetic Engineering
 - Synthetic Biology
+- De-Extinction
+- Conservation
+- Wildlife
+- Life Sciences
+- CRISPR
+- Research
+- Content
+tags_raw:
+- Company
+- Biotechnology
+- Genomics
+- Genetic Engineering
+- Synthetic Biology
 - De-extinction
 - Conservation
 - Wildlife
@@ -191,6 +204,8 @@ apis:
   humanURL: https://colossal.com/news/
   baseURL: https://colossal.com/wp-json/wp/v2
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
