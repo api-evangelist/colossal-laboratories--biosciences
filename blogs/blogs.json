@@ -2,6 +2,20 @@
   "repo": "colossal-laboratories--biosciences",
   "feeds": [
     {
+      "source": "https://colossal.com/company/feed/",
+      "feed_url": "https://colossal.com/company/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://colossal.com/news/feed/",
+      "feed_url": "https://colossal.com/news/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
       "source": "https://colossal.com/company/",
       "feed_url": "https://colossal.com/company/feed/",
       "title": "",
@@ -17,5 +31,5 @@
     }
   ],
   "post_count": 0,
-  "fetched": "2026-08-15T12:22:01Z"
+  "fetched": "2026-08-22T20:20:02Z"
 }
