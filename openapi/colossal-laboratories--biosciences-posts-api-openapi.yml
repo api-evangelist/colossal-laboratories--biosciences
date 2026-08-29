@@ -870,8 +870,14 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   responses:
-    NotFound:
-      description: No route or resource matched (rest_no_route / rest_post_invalid_id).
+    Forbidden:
+      description: Authenticated but not permitted (rest_cannot_view / rest_forbidden).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WpError'
+    Unauthorized:
+      description: Authentication required or rejected (rest_forbidden / rest_not_logged_in).
       content:
         application/json:
           schema:
@@ -882,14 +888,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/WpError'
-    Forbidden:
-      description: Authenticated but not permitted (rest_cannot_view / rest_forbidden).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/WpError'
-    Unauthorized:
-      description: Authentication required or rejected (rest_forbidden / rest_not_logged_in).
+    NotFound:
+      description: No route or resource matched (rest_no_route / rest_post_invalid_id).
       content:
         application/json:
           schema:

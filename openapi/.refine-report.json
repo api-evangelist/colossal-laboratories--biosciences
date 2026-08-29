@@ -26,15 +26,6 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "colossal-laboratories--biosciences-comments-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "colossal-laboratories--biosciences-discovery-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "colossal-laboratories--biosciences-media-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "colossal-laboratories--biosciences-pages-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "colossal-laboratories--biosciences-posts-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "colossal-laboratories--biosciences-search-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "colossal-laboratories--biosciences-settings-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "colossal-laboratories--biosciences-taxonomy-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "colossal-laboratories--biosciences-users-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
   "skipped": []
