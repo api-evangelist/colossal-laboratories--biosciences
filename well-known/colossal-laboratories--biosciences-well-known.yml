@@ -1,13 +1,17 @@
-generated: '2026-08-09'
+generated: '2026-09-19'
 method: probed
 source: live GET probes of the /.well-known/ surface on every colossal.com host, 2026-08-09
 host: https://colossal.com
-note: >-
-  Colossal serves no /.well-known/ discovery document at all. Every RFC 8615 path below returned
-  a 404 — /llms.txt and /.well-known/security.txt return the small WordPress 404 page, the rest
-  return the full themed 404 page (~70KB of text/html). Both agent-card paths 404 on the apex and
-  301 to the apex on www. Recorded as observed; absence is valid data and nothing was authored on
-  Colossal's behalf.
+note: 'Colossal serves no /.well-known/ discovery document at all. Every RFC 8615 path below returned
+  a 404 — /llms.txt and /.well-known/security.txt return the small WordPress 404 page, the rest return
+  the full themed 404 page (~70KB of text/html). Both agent-card paths 404 on the apex and 301 to the
+  apex on www. Recorded as observed; absence is valid data and nothing was authored on Colossal''s behalf.
+
+
+  MCP-host OAuth discovery added 2026-09-19 (roadmap#321/#337): the harvest visits a provider''s primary
+  hosts, and RFC 9728 protected-resource metadata lives on the MCP host, so these documents existed and
+  were invisible to the scorer. Fetched live and validated on `resource`/`issuer`; one negative control
+  per host.'
 hosts_probed:
 - host: colossal.com
   resolves: true
@@ -17,85 +21,40 @@ hosts_probed:
   note: 301 redirects to the apex
 - host: api.colossal.com
   resolves: true
-  note: >-
-    Resolves only because colossal.com carries a wildcard A record to the WP Engine edge
-    (141.193.213.10/.11). There is no vhost — TLS handshake fails (sslv3 alert handshake
-    failure) and plain HTTP returns 409, WP Engine's "no site for this hostname". Not an API
-    host. The same is true of docs., developer., dev., shop. and store.colossal.com.
+  note: Resolves only because colossal.com carries a wildcard A record to the WP Engine edge (141.193.213.10/.11).
+    There is no vhost — TLS handshake fails (sslv3 alert handshake failure) and plain HTTP returns 409,
+    WP Engine's "no site for this hostname". Not an API host. The same is true of docs., developer., dev.,
+    shop. and store.colossal.com.
 - host: docs.colossal.com
   resolves: true
   note: wildcard DNS only; HTTPS handshake failure, HTTP 409 — no site
 - host: developer.colossal.com
   resolves: true
   note: wildcard DNS only; HTTPS handshake failure, HTTP 409 — no site
-documents:
-- path: /.well-known/security.txt
-  spec: RFC 9116
-  status: 404
-- path: /.well-known/openid-configuration
-  spec: OpenID Connect Discovery 1.0
-  status: 404
-- path: /.well-known/oauth-authorization-server
-  spec: RFC 8414
-  status: 404
-- path: /.well-known/oauth-protected-resource
-  spec: RFC 9728
-  status: 404
-- path: /.well-known/api-catalog
-  spec: RFC 9727
-  status: 404
-- path: /.well-known/ai-plugin.json
-  spec: OpenAI plugin manifest
-  status: 404
-- path: /.well-known/agent-card.json
-  spec: A2A 1.0.0
-  status: 404
-  also_probed_on: www.colossal.com (301 to apex)
-- path: /.well-known/agent.json
-  spec: A2A pre-0.3 legacy
-  status: 404
-  also_probed_on: www.colossal.com (301 to apex)
-- path: /.well-known/dnt-policy.txt
-  spec: EFF Do Not Track policy
-  status: 404
-- path: /.well-known/change-password
-  spec: W3C change-password URL
-  status: 404
-- path: /.well-known/apple-app-site-association
-  spec: Apple universal links
-  status: 404
-- path: /security.txt
-  spec: RFC 9116 legacy root location
-  status: 404
 adjacent_discovery_found:
 - path: /wp-json/
   status: 200
   content_type: application/json
-  note: >-
-    The WordPress REST route-discovery document — 308 routes across 18 namespaces. This is the
-    only real machine-readable contract on colossal.com and is the source the OpenAPI in
-    openapi/ was derived from. Saved verbatim at
-    openapi/_source/colossal-laboratories--biosciences-wp-json-root.json.
+  note: The WordPress REST route-discovery document — 308 routes across 18 namespaces. This is the only
+    real machine-readable contract on colossal.com and is the source the OpenAPI in openapi/ was derived
+    from. Saved verbatim at openapi/_source/colossal-laboratories--biosciences-wp-json-root.json.
 - path: /wp-json/mcp
   status: 200
   content_type: application/json
-  note: >-
-    MCP namespace index. Advertises /wp-json/mcp/mcp-adapter-default-server. The server itself
-    is 401 to anonymous JSON-RPC. See mcp/colossal-laboratories--biosciences-mcp.yml.
+  note: MCP namespace index. Advertises /wp-json/mcp/mcp-adapter-default-server. The server itself is
+    401 to anonymous JSON-RPC. See mcp/colossal-laboratories--biosciences-mcp.yml.
 - path: /robots.txt
   status: 200
   content_type: text/plain
-  note: >-
-    Three directives only — Disallow /wp-admin/, Allow /wp-admin/admin-ajax.php, Crawl-delay 10
-    — plus the sitemap pointer. No AI crawler is named, neither allowed nor blocked, so the
-    wildcard User-agent rule is what governs GPTBot, ClaudeBot, PerplexityBot and the rest.
+  note: Three directives only — Disallow /wp-admin/, Allow /wp-admin/admin-ajax.php, Crawl-delay 10 —
+    plus the sitemap pointer. No AI crawler is named, neither allowed nor blocked, so the wildcard User-agent
+    rule is what governs GPTBot, ClaudeBot, PerplexityBot and the rest.
 - path: /sitemap_index.xml
   status: 200
   content_type: text/xml
-  note: >-
-    Rank Math sitemap index — post, page, paper, podcast, team, pdf, faq, faq-category and local
-    sitemaps. Note that paper, podcast, team, faq and pdf are custom post types that appear in
-    the sitemap but are NOT registered with the REST API, so they cannot be read as JSON.
+  note: Rank Math sitemap index — post, page, paper, podcast, team, pdf, faq, faq-category and local sitemaps.
+    Note that paper, podcast, team, faq and pdf are custom post types that appear in the sitemap but are
+    NOT registered with the REST API, so they cannot be read as JSON.
 - path: /feed/
   status: 200
   content_type: application/rss+xml
@@ -105,7 +64,57 @@ not_found_notes:
     path: /llms.txt
     status: 404
     also_probed_on: www.colossal.com (404), colossalfoundation.org (404)
-    note: >-
-      Colossal publishes no llms.txt. The file at llms/colossal-laboratories--biosciences-llms.txt
-      is GENERATED by API Evangelist from this repo's artifacts, and is marked as such — it is
-      not served by colossal.com.
+    note: Colossal publishes no llms.txt. The file at llms/colossal-laboratories--biosciences-llms.txt
+      is GENERATED by API Evangelist from this repo's artifacts, and is marked as such — it is not served
+      by colossal.com.
+hosts:
+- host: https://colossal.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/dnt-policy.txt
+    status: 404
+  - path: /.well-known/change-password
+    status: 404
+  - path: /.well-known/apple-app-site-association
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: colossal-laboratories--biosciences-colossal-oauth-protected-resource.json
+    bytes: 185
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: colossal-laboratories--biosciences-colossal-oauth-authorization-server.json
+    bytes: 539
+  path_echo_control: passed
+x-shape-fix:
+  converted: '2026-08-20'
+  from: documents
+  note: Rewritten into hosts[] -> documents[], the only shape well_known_docs() in score.rb reads. A served
+    .well-known surface recorded in any other shape scores as absent.
+x-mcp-probe:
+  probed: '2026-09-19'
+  issue: roadmap#321, roadmap#337
+  documents:
+  - host: https://colossal.com
+    path: /.well-known/oauth-protected-resource
+    file: colossal-laboratories--biosciences-colossal-oauth-protected-resource.json
+  - host: https://colossal.com
+    path: /.well-known/oauth-authorization-server
+    file: colossal-laboratories--biosciences-colossal-oauth-authorization-server.json
+  validated_on: resource (RFC 9728) / issuer (RFC 8414, OIDC)
+  negative_control: one per host; a 2xx JSON object at an impossible path discards the host

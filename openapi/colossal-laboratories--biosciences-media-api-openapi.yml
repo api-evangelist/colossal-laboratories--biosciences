@@ -3,13 +3,7 @@ info:
   title: Colossal Content API (WordPress REST wp/v2) Media API
   version: wp/v2
   summary: 'Public read surface of colossal.com content: news and science posts, marketing and species pages, the media library, taxonomies, contributor profiles and site-wide search.'
-  description: 'Colossal Laboratories & Biosciences publishes colossal.com on WordPress (WP Engine), which exposes the WordPress REST API at https://colossal.com/wp-json/. The wp/v2 namespace is anonymously readable and returns the company''s news and science posts (238 published), marketing / species / FAQ pages (59 published), the media library (990 items), categories (15), tags (156), contributor profiles (8) and a site-wide search endpoint (297 indexed objects) as JSON.
-
-
-    This document was DERIVED mechanically by API Evangelist from the route-discovery document served at https://colossal.com/wp-json/ on 2026-08-09 — every path, method and parameter below is taken verbatim from that descriptor. Colossal does not publish an OpenAPI definition of its own, and this is not a product API: it is the content API the CMS exposes. Write operations exist on these routes but require authentication (WordPress Application Passwords over HTTP Basic).
-
-
-    Colossal''s custom content types visible in the sitemap — papers, podcast episodes, team members, FAQs and PDFs — are NOT registered with the REST API (show_in_rest false), so they do not appear here and cannot be read as JSON.'
+  description: Colossal Laboratories & Biosciences publishes colossal.com on WordPress (WP Engine), which exposes the WordPress REST API at https://colossal.com/wp-json/.
   contact:
     name: Colossal Laboratories & Biosciences
     url: https://colossal.com/
@@ -813,14 +807,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/WpError'
-    Unauthorized:
-      description: Authentication required or rejected (rest_forbidden / rest_not_logged_in).
+    BadRequest:
+      description: Invalid parameter (rest_invalid_param).
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/WpError'
-    BadRequest:
-      description: Invalid parameter (rest_invalid_param).
+    Unauthorized:
+      description: Authentication required or rejected (rest_forbidden / rest_not_logged_in).
       content:
         application/json:
           schema:

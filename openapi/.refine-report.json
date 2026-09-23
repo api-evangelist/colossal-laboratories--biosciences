@@ -1,15 +1,7 @@
 {
   "provider": "colossal-laboratories--biosciences",
   "sources": [
-    "colossal-laboratories--biosciences-comments-api-openapi.yml",
-    "colossal-laboratories--biosciences-discovery-api-openapi.yml",
-    "colossal-laboratories--biosciences-media-api-openapi.yml",
-    "colossal-laboratories--biosciences-pages-api-openapi.yml",
-    "colossal-laboratories--biosciences-posts-api-openapi.yml",
-    "colossal-laboratories--biosciences-search-api-openapi.yml",
-    "colossal-laboratories--biosciences-settings-api-openapi.yml",
-    "colossal-laboratories--biosciences-taxonomy-api-openapi.yml",
-    "colossal-laboratories--biosciences-users-api-openapi.yml"
+    "_ae-authored/colossal-laboratories--biosciences-content-openapi.yml"
   ],
   "outputs": [
     "colossal-laboratories--biosciences-comments-api-openapi.yml",
@@ -26,7 +18,19 @@
   "errors": [],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "colossal-laboratories--biosciences-content-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "colossal-laboratories--biosciences-comments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "colossal-laboratories--biosciences-discovery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "colossal-laboratories--biosciences-media-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "colossal-laboratories--biosciences-pages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "colossal-laboratories--biosciences-posts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "colossal-laboratories--biosciences-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "colossal-laboratories--biosciences-settings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "colossal-laboratories--biosciences-taxonomy-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "colossal-laboratories--biosciences-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
